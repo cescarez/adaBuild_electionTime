@@ -3,6 +3,7 @@
 #Ada Developer's Academy C14
 #Ada Build: Section 4 Assessment: question  2, "Election Time"
 
+
 #MAIN
 puts "Please gather at least ten voters and vote for the top cereal. The current nominees are: "
 nominees = [["Special K", 0, 'A'], ["Lucky Charms", 0, 'B'], ["Cinnamon Toast Crunch", 0, 'C'], ["Bacon", 0, 'D'], ["Write-in Vote", 0, 'E']]
@@ -30,16 +31,17 @@ until input_vote == '0' && voter_num >= 10
   nominees.each do |cereal_array|
     if cereal_array[2] == input_vote
       if cereal_array[0] == "Write-in Vote"
-        #move write in selection to last array location
-        nominees[nominees.index(cereal_array) + 1] = nominees[nominees.index(cereal_array)].slice(0..-1)
-        # nominees.index(cereal_array) + 1 = nominees.index(cereal_array)
+        #copy 'write in' selection to last array location; .dup used so value is copied, not reference.
+        nominees[nominees.index(cereal_array) + 1] = nominees[nominees.index(cereal_array)].dup
 
-        puts last_letter
-
+        #write new input into nominee[-1] index
         puts "Please input your write-in nominee: "
-        nominees[nominees.index(cereal_array)][0] = gets.chomp
-        nominees[nominees.index(cereal_array)][1] = 0 
-        nominees[nominees.index(cereal_array)][2] = nominees[nominees.index(cereal_array) - 1][2].next!
+        nominees[-1][0] = gets.chomp
+        nominees[-1][1] = 0 
+        nominees[-1][2] = last_letter.dup 
+        # nominees[nominees.index(cereal_array)][0] = gets.chomp
+        # nominees[nominees.index(cereal_array)][1] = 0 
+        # nominees[nominees.index(cereal_array)][2] = last_letter.dup 
         last_letter.next!
 
         puts "A new write-in nominee has been added. The current nominees for top cereal are: "
