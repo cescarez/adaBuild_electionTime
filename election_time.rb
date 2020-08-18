@@ -2,10 +2,9 @@
 #Last updated: August 17, 2020
 #Ada Developer's Academy C14
 #Ada Build: Section 4 Assessment: question  2, "Election Time"
-#future implementation: add letter into hash?
 
 #MAIN
-puts "Please ten voters and vote for the top cereal."
+puts "Please gather at least ten voters and vote for the top cereal. The current nominees are: "
 nominees = [["Special K", 0, 'A'], ["Lucky Charms", 0, 'B'], ["Cinnamon Toast Crunch", 0, 'C'], ["Bacon", 0, 'D'], ["Write-in Vote", 0, 'E']]
 
 last_letter = 'A'
@@ -30,7 +29,27 @@ until input_vote == '0' && voter_num >= 10
   end
   nominees.each do |cereal_array|
     if cereal_array[2] == input_vote
-      cereal_array[1] += 1
+      if cereal_array[0] == "Write-in Vote"
+        #move write in selection to last array location
+        nominees[nominees.index(cereal_array) + 1] = nominees[nominees.index(cereal_array)].slice(0..-1)
+        # nominees.index(cereal_array) + 1 = nominees.index(cereal_array)
+
+        puts last_letter
+
+        puts "Please input your write-in nominee: "
+        nominees[nominees.index(cereal_array)][0] = gets.chomp
+        nominees[nominees.index(cereal_array)][1] = 0 
+        nominees[nominees.index(cereal_array)][2] = nominees[nominees.index(cereal_array) - 1][2].next!
+        last_letter.next!
+
+        puts "A new write-in nominee has been added. The current nominees for top cereal are: "
+        nominees.each do |cereal_array|
+          puts "#{cereal_array[2]}: #{cereal_array[0]}"
+        end
+        
+      else
+        cereal_array[1] += 1
+      end
     end
   end
 end
@@ -39,17 +58,21 @@ winning_cereal = ""
 highest_vote_count = multiple_winners = 0
 puts "The final tally:"
 nominees.each do |cereal_array|
-  if cereal_array[1] == 1
-    puts "#{cereal_array[0]} - #{cereal_array[1]} vote"
+  if cereal_array[0] == "Write-in Vote"
+    break
   else
-    puts "#{cereal_array[0]} - #{cereal_array[1]} votes"
-  end
-  if cereal_array[1] > highest_vote_count
-    highest_vote_count = cereal_array[1]
-    winning_cereal = cereal_array[0] 
-  elsif cereal_array[1].to_i == highest_vote_count
-    winning_cereal += " and " + cereal_array[0] 
-    multiple_winners = true
+    if cereal_array[1] == 1
+      puts "#{cereal_array[0]} - #{cereal_array[1]} vote"
+    else
+      puts "#{cereal_array[0]} - #{cereal_array[1]} votes"
+    end
+    if cereal_array[1] > highest_vote_count
+      highest_vote_count = cereal_array[1]
+      winning_cereal = cereal_array[0] 
+    elsif cereal_array[1].to_i == highest_vote_count
+      winning_cereal += " and " + cereal_array[0] 
+      multiple_winners = true
+    end
   end
 end
 
