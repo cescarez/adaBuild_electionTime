@@ -33,7 +33,7 @@ until input_vote == '0' && voter_num >= 10
         #copy 'write in' selection to last array location; .dup used so value is copied, not reference.
         nominees[nominees.index(cereal_array) + 1] = nominees[nominees.index(cereal_array)].dup
 
-        #write new input into nominee[-1] index
+        #write new input into second-to-last nominee index
         puts "Please input your write-in nominee: "
         nominees[-2][0] = gets.chomp
         nominees[-2][1] = 0 
