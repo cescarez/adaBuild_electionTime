@@ -15,20 +15,24 @@ nominees.each do |cereal_array|
 end
 
 voter_num = 0
-while voter_num < 10
+input_vote = ''
+puts "Enter '0' at any time to end voting and proceed to vote tallying."
+until input_vote == '0' && voter_num >= 10
   voter_num += 1
   print "Selection for Voter ##{voter_num}: "
   input_vote = gets.chomp.upcase
-  until (('A'..last_letter).include?(input_vote))  
-    puts "Invalid input. Please enter a valid selection."
+  until ((('A'..last_letter).include?(input_vote)) || (input_vote == '0'))  
+    print "Invalid input. Please enter a valid selection for Voter ##{voter_num}: "
     input_vote = gets.chomp.upcase
+  end
+  if input_vote == '0' && voter_num < 10
+    puts "Please enter at least ten votes before tallying votes."
   end
   nominees.each do |cereal_array|
     if cereal_array[2] == input_vote
       cereal_array[1] += 1
     end
   end
-
 end
 
 winning_cereal = ""
